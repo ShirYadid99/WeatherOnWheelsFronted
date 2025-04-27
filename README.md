@@ -17,3 +17,6 @@ This is the React + TypeScript frontend for the "Weather on Wheels" project.
 - Bootstrap
 - OpenStreetMap (for map and geocoding)
 - OpenWeatherMap API (for weather data)
+
+## Video 
+https://drive.google.com/file/d/16za8xqK62D0sDsT13qeETJqWGz7gSn1u/view?usp=sharing
