@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import PlacesPage from './pages/PlacesPage';
+import CreatePage from './pages/CreatePage';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <nav style={{ padding: '10px' }}>
+          <Link to="/" style={{ marginRight: '20px' }}>Places</Link>
+          <Link to="/create" style={{ marginRight: '20px' }}>Create Place</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<PlacesPage />} />
+          <Route path="/create" element={<CreatePage />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
