@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ייבוא הפונקציה ניווט
-import { createPlace } from '../services/PlaceService'; // ייבוא השירות המנהל את יצירת המקום
+import { useNavigate } from 'react-router-dom'; // ייבוא הפונקציה ניווט בין עמודים
+import { createPlace } from '../services/PlaceService'; // ייבוא השירות שמטפל ביצירת מקום חדש
 import 'bootstrap/dist/css/bootstrap.min.css'; // ייבוא עיצוב Bootstrap
 
+// רכיב לדף יצירת מקום חדש
 const CreatePage: React.FC = () => {
   // משתנים לניהול המידע בטופס
   const [name, setName] = useState(''); // שם המקום
-  const [type, setType] = useState('Restaurant'); // סוג המקום
+  const [type, setType] = useState('Restaurant'); // סוג המקום (ברירת מחדל: מסעדה)
   const [address, setAddress] = useState(''); // כתובת המקום
-  const [loading, setLoading] = useState(false); // מצב ההמתנה (בזמן יצירת המקום)
-  const [successMessage, setSuccessMessage] = useState(''); // הודעת הצלחה
-  const navigate = useNavigate(); // פונקציה לניווט לעמוד אחר
+  const [loading, setLoading] = useState(false); // מצב ההמתנה (אם התהליך יצירת המקום פעיל)
+  const [successMessage, setSuccessMessage] = useState(''); // הודעת הצלחה במקרה של יצירת מקום
+  const navigate = useNavigate(); // פונקציה לניווט בין עמודים
 
   // פונקציה שמטפלת במשלוח הטופס
   const handleSubmit = async (e: React.FormEvent) => {
@@ -18,13 +19,14 @@ const CreatePage: React.FC = () => {
     setLoading(true); // מתחילים את מצב ההמתנה
 
     try {
-      await createPlace({ name, type, address }); // קריאה לשירות יצירת המקום
+      // קריאה לשירות יצירת מקום חדש
+      await createPlace({ name, type, address });
       setSuccessMessage('Place created successfully!'); // הצגת הודעת הצלחה
       setLoading(false); // סיום מצב ההמתנה
       setTimeout(() => navigate('/'), 1500);  // ניווט לעמוד הבית אחרי 1.5 שניות
     } catch (error) {
       setLoading(false); // סיום מצב ההמתנה גם במקרה של שגיאה
-      alert('Error: ' + error); // הצגת שגיאה במקרה של בעיה
+      alert('Error: ' + error); // הצגת שגיאה אם הייתה בעיה
     }
   };
 
@@ -34,7 +36,7 @@ const CreatePage: React.FC = () => {
       <form onSubmit={handleSubmit} className="p-4 border rounded shadow">
         <h2>Create New Place</h2>
 
-        {/* שדה שם */}
+        {/* שדה שם מקום */}
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>
           <input
@@ -57,13 +59,13 @@ const CreatePage: React.FC = () => {
             onChange={e => setType(e.target.value)} // עדכון סוג המקום
             className="form-select"
           >
-            <option>Restaurant</option>
-            <option>Hotel</option>
-            <option>Park</option>
+            <option>Restaurant</option> {/* אפשרות: מסעדה */}
+            <option>Hotel</option> {/* אפשרות: מלון */}
+            <option>Park</option> {/* אפשרות: פארק */}
           </select>
         </div>
 
-        {/* שדה כתובת */}
+        {/* שדה כתובת מקום */}
         <div className="mb-3">
           <label htmlFor="address" className="form-label">Address</label>
           <input
@@ -85,7 +87,7 @@ const CreatePage: React.FC = () => {
       {/* הצגת הודעת הצלחה */}
       {successMessage && (
         <div className="mt-4 alert alert-success">
-          {successMessage}
+          {successMessage} {/* הודעת הצלחה אם יצירת המקום הצליחה */}
         </div>
       )}
     </div>

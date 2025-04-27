@@ -1,38 +1,50 @@
 // src/components/PlaceList.tsx
 import React from 'react';
-import { Place } from '../types/Place'; // ייבוא טיפוס המידע של מקום
+import { Place } from '../types/Place'; // ייבוא טיפוס הנתונים של מקום
 
-// הגדרת פרופס לרכיב PlaceList
+// הגדרת מבנה הפרופס שהרכיב PlaceList מקבל
 interface PlaceListProps {
-  places: Place[]; // מערך של מקומות להצגה ברשימה
-  onSelect: (place: Place) => void; // פונקציה שתופעל כשמקום נבחר מהרשימה
-  selectedPlace: Place | null; // המקום שנבחר, אם קיים
+  places: Place[]; // מערך של מקומות להצגה
+  onSelect: (place: Place) => void; // פונקציה שתופעל כאשר משתמש בוחר מקום
+  selectedPlace: Place | null; // המקום הנבחר (אם יש)
 }
 
-// רכיב PlaceList
+// רכיב להצגת רשימת מקומות
 const PlaceList: React.FC<PlaceListProps> = ({ places, onSelect, selectedPlace }) => {
   return (
-    <div style={{ width: '300px', overflowY: 'auto', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
+    <div
+      style={{
+        width: '300px', // רוחב קבוע לרשימה
+        overflowY: 'auto', // מאפשר גלילה אנכית אם הרשימה ארוכה
+        border: '1px solid #ccc', // מסגרת אפורה עדינה
+        padding: '10px', // רווח פנימי
+        borderRadius: '8px' // פינות מעוגלות
+      }}
+    >
       {/* כותרת הרשימה */}
       <h2 style={{ textAlign: 'center' }}>Places</h2>
+
+      {/* רשימת מקומות */}
       <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {/* מעבר על המקומות והצגת כל אחד ברשימה */}
         {places.map((place) => (
           <li
-            key={place.id} // מזהה ייחודי לכל מקום
-            onClick={() => onSelect(place)} // קריאה לפונקציה onSelect כאשר לוחצים על המקום
+            key={place.id} // מפתח ייחודי לכל מקום
+            onClick={() => onSelect(place)} // לחיצה על מקום תפעיל את הפונקציה onSelect
             style={{
-              marginBottom: '10px', // רווח בין פריטי הרשימה
-              cursor: 'pointer', // סמן עכבר מורה על קישור
+              marginBottom: '10px', // רווח בין מקומות
+              cursor: 'pointer', // סמן עכבר מצביע
               padding: '8px', // ריפוד פנימי
-              borderRadius: '6px', // רדיוס פינות קל לפריטי הרשימה
-              backgroundColor: selectedPlace?.id === place.id ? '#d0f0fd' : '#f9f9f9', // צבע רקע למקום שנבחר
-              border: selectedPlace?.id === place.id ? '2px solid #00aaff' : '1px solid #ddd' // גבול עבור מקום שנבחר
+              borderRadius: '6px', // פינות מעוגלות
+              backgroundColor: selectedPlace?.id === place.id ? '#d0f0fd' : '#f9f9f9', // רקע אחר למקום נבחר
+              border: selectedPlace?.id === place.id ? '2px solid #00aaff' : '1px solid #ddd' // גבול מודגש למקום נבחר
             }}
           >
-            <strong>{place.name}</strong> <br /> {/* שם המקום ב-bold */}
-            <small>{place.type}</small> <br /> {/* סוג המקום */}
-            <small>{place.address}</small> {/* כתובת המקום */}
+            {/* הצגת שם המקום בצורה מודגשת */}
+            <strong>{place.name}</strong> <br />
+            {/* הצגת סוג המקום */}
+            <small>{place.type}</small> <br />
+            {/* הצגת כתובת המקום */}
+            <small>{place.address}</small>
           </li>
         ))}
       </ul>
